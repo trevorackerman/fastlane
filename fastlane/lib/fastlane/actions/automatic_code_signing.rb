@@ -20,6 +20,12 @@ module Fastlane
         changed_targets = []
         project.root_object.attributes["TargetAttributes"].each do |target, sett|
           found_target = target_dictionary.detect { |h| h[:uuid] == target }
+
+          if found_target.to_s.empty?
+            UI.important("Skipping target #{target}");
+            next
+          end
+
           if params[:targets]
             # get target name
             unless params[:targets].include?(found_target[:name])
